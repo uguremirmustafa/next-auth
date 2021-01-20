@@ -2,10 +2,15 @@
 
 import React from 'react';
 import { signIn, signOut, useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
 
 export default function myComponent() {
+  const router = useRouter();
   const [session, loading] = useSession();
-
+  const handleLogout = () => {
+    signOut();
+    router.push('/');
+  };
   return (
     <>
       {!session && (
@@ -17,7 +22,7 @@ export default function myComponent() {
       {session && (
         <>
           Signed in as {session.user.email} <br />
-          <button onClick={signOut}>Sign out</button>
+          <button onClick={handleLogout}>Sign out</button>
         </>
       )}
     </>
